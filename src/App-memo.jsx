@@ -1,6 +1,12 @@
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { faker } from "@faker-js/faker";
 
+function createRandomPost() {
+  return {
+    title: `${faker.hacker.adjective()} ${faker.hacker.noun()}`,
+    body: faker.hacker.phrase(),
+  };
+}
 function App() {
   const [posts, setPosts] = useState(() =>
     Array.from({ length: 30 }, () => createRandomPost())
@@ -35,40 +41,39 @@ function App() {
     },
     [isFakeDark]
   );
+
+  const archiveOptions = useMemo(() => {
+    return {
+      show: false,
+      title: `Post archive in addition to ${posts.length} main posts`,
+    };
+  }, [posts.length]);
+
+  return (
+    <section>
+      <button
+        onClick={() => setIsFakeDark((isFakeDark) => !isFakeDark)}
+        className="btn-fake-dark-mode"
+      >
+        {isFakeDark ? "☀️" : "🌙"}
+      </button>
+
+      <Header
+        posts={searchedPosts}
+        onClearPosts={handleClearPosts}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+      />
+      <Main posts={searchedPosts} onAddPost={handleAddPost} />
+      <Archive
+        archiveOptions={archiveOptions}
+        onAddPost={handleAddPost}
+        setIsFakeDark={setIsFakeDark}
+      />
+      <Footer />
+    </section>
+  );
 }
-
-const archiveOptions = useMemo(() => {
-  return {
-    show: false,
-    title: `Post archive in addition to ${posts.length} main posts`,
-  };
-}, [posts.length]);
-
-return (
-  <section>
-    <button
-      onClick={() => setIsFakeDark((isFakeDark) => !isFakeDark)}
-      className="btn-fake-dark-mode"
-    >
-      {isFakeDark ? "☀️" : "🌙"}
-    </button>
-
-    <Header
-      posts={searchedPosts}
-      onClearPosts={handleClearPosts}
-      searchQuery={searchQuery}
-      setSearchQuery={setSearchQuery}
-    />
-    <Main posts={searchedPosts} onAddPost={handleAddPost} />
-    <Archive
-      archiveOptions={archiveOptions}
-      onAddPost={handleAddPost}
-      setIsFakeDark={setIsFakeDark}
-    />
-    <Footer />
-  </section>
-);
-
 function Header({ posts, onClearPosts, searchQuery, setSearchQuery }) {
   return (
     <header>
@@ -96,7 +101,6 @@ function SearchPosts({ searchQuery, setSearchQuery }) {
     />
   );
 }
-
 
 function Results({ posts }) {
   return <p>🚀 {posts.length} atomic posts found</p>;
