@@ -1,8 +1,6 @@
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { faker } from "@faker-js/faker";
 
-
-
 function App() {
   const [posts, setPosts] = useState(() =>
     Array.from({ length: 30 }, () => createRandomPost())
@@ -38,4 +36,37 @@ function App() {
     [isFakeDark]
   );
 }
+
+const archiveOptions = useMemo(() => {
+  return {
+    show: false,
+    title: `Post archive in addition to ${posts.length} main posts`,
+  };
+}, [posts.length]);
+
+return (
+  <section>
+    <button
+      onClick={() => setIsFakeDark((isFakeDark) => !isFakeDark)}
+      className="btn-fake-dark-mode"
+    >
+      {isFakeDark ? "☀️" : "🌙"}
+    </button>
+
+    <Header
+      posts={searchedPosts}
+      onClearPosts={handleClearPosts}
+      searchQuery={searchQuery}
+      setSearchQuery={setSearchQuery}
+    />
+    <Main posts={searchedPosts} onAddPost={handleAddPost} />
+    <Archive
+      archiveOptions={archiveOptions}
+      onAddPost={handleAddPost}
+      setIsFakeDark={setIsFakeDark}
+    />
+    <Footer />
+  </section>
+);
+
 export default App;
