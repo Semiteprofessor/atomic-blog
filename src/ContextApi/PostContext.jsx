@@ -1,11 +1,7 @@
 import { createContext, useState } from "react";
 import { faker } from "@faker-js/faker";
-import Header from "./components/Header";
-import Main from "./components/Main";
-import Archive from "./components/Archive";
-import Footer from "./components/Footer";
 
-import "./App.css";
+const PostContext = createContext({});
 
 const createRandomPost = () => {
   return {
@@ -13,16 +9,11 @@ const createRandomPost = () => {
     body: faker.hacker.phrase(),
   };
 };
-
-// Create a new context
-const PostContext = createContext({});
-
-function App() {
+const PostProvider = ({ children }) => {
   const [posts, setPosts] = useState(() =>
     Array.from({ length: 30 }, () => createRandomPost())
   );
   const [searchQuery, setSearchQuery] = useState("");
-  const [isFakeDark, setIsFakeDark] = useState(false);
 
   const searchedPosts =
     searchQuery.length > 0
@@ -54,25 +45,11 @@ function App() {
         onClearPosts: handleClearPosts,
         searchQuery,
         setSearchQuery,
-        isFakeDark,
-        setIsFakeDark,
       }}
     >
-      <section>
-        <button
-          className="mode"
-          onClick={() => setIsFakeDark((isFakeDark) => !isFakeDark)}
-        >
-          {isFakeDark ? "*" : "🌙"}
-        </button>
-
-        <Header />
-        <Main posts={searchedPosts} onAddPost={handleAddPost} />
-        <Archive onAddPost={handleAddPost} />
-        <Footer />
-      </section>
+      {children}
     </PostContext.Provider>
   );
-}
+};
 
-export default App;
+export { PostProvider, PostContext };

@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
+import { PostContext } from "../ContextApi/PostContext";
 
-const Posts = ({ posts }) => {
+const Posts = () => {
+  const { posts } = useContext(PostContext);
   console.log(posts);
   return (
     <div className="posts">
