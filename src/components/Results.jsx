@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
+import { PostContext } from "../ContextApi/PostContext";
 
-const Results = ({ posts }) => {
-  return <p className="result">X length atomic posts found</p>;
+const Results = () => {
+  const { posts } = useContext(PostContext);
+  return <p className="result">{posts.length} atomic posts found</p>;
 };
 
 export default Results;

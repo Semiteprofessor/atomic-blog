@@ -3,7 +3,6 @@ import { PostContext } from "../ContextApi/PostContext";
 
 const Posts = () => {
   const { posts } = useContext(PostContext);
-  console.log(posts);
   return (
     <div className="posts">
       {posts.map((post) => (

@@ -1,21 +1,22 @@
 import React, { useContext } from "react";
 import Results from "./Results";
 import SearchPosts from "./SearchPosts";
-import PostContext from "../App";
+import { PostContext } from "../ContextApi/PostContext";
 
 const Header = () => {
+  const { onClearPosts } = useContext(PostContext);
   return (
     <header className="header">
       <h1>
         <span>⚛️</span>Atomic Blog
       </h1>
-      {/* <div>
+      <div>
         <Results />
         <SearchPosts />
-      </div> */}
-      {/* <button className="clear-post" onClick={onClearPosts}>
+      </div>
+      <button className="clear-post" onClick={onClearPosts}>
         Clear Posts
-      </button> */}
+      </button>
     </header>
   );
 };

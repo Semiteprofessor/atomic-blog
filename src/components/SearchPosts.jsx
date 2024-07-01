@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
+import { PostContext } from "../ContextApi/PostContext";
 
-const SearchPosts = ({ searchQuery, setSearchQuery }) => {
+const SearchPosts = () => {
+  const { searchQuery, setSearchQuery } = useContext(PostContext);
   return (
     <input
       value={searchQuery}
