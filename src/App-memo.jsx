@@ -27,7 +27,15 @@ function App() {
     setPosts([]);
   }
   const handleToggleFakeDark = useCallback(function handleToggleFakeDark() {
-    setIsFakeDark((prevIsFakeDark) =>!prevIsFakeDark);
+    setIsFakeDark((prevIsFakeDark) => !prevIsFakeDark);
   }, []);
+
+  // Whenever `isFakeDark` changes, we toggle the `fake-dark-mode` class on the HTML element (see in "Elements" dev tool).
+  useEffect(
+    function () {
+      document.documentElement.classList.toggle("fake-dark-mode");
+    },
+    [isFakeDark]
+  );
 }
 export default App;
