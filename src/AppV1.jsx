@@ -117,4 +117,12 @@ function Main() {
   );
 }
 
+function Posts() {
+  return (
+    <section>
+      <List />
+    </section>
+  );
+}
+
 export default App;
