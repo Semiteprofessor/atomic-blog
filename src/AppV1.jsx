@@ -108,4 +108,13 @@ function Results() {
   return <p>🚀 {posts.length} atomic posts found</p>;
 }
 
+function Main() {
+  return (
+    <main>
+      <FormAddPost />
+      <Posts />
+    </main>
+  );
+}
+
 export default App;
