@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import { PostContext } from "../ContextApi/PostContext";
+import { usePost } from "../ContextApi/PostContext";
 
 const Posts = () => {
-  const { posts } = useContext(PostContext);
+  const { posts } = usePost();
   return (
     <div className="posts">
       {posts.map((post) => (

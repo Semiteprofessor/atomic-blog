@@ -1,7 +1,12 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useState } from "react";
 import { faker } from "@faker-js/faker";
+import Header from "./components/Header";
+import Main from "./components/Main";
+import Archive from "./components/Archive";
+import Footer from "./components/Footer";
 
-const PostContext = createContext();
+import "./App.css";
+import { PostProvider } from "./ContextApi/PostContext";
 
 const createRandomPost = () => {
   return {
@@ -9,11 +14,13 @@ const createRandomPost = () => {
     body: faker.hacker.phrase(),
   };
 };
-const PostProvider = ({ children }) => {
+
+function App() {
   const [posts, setPosts] = useState(() =>
     Array.from({ length: 30 }, () => createRandomPost())
   );
   const [searchQuery, setSearchQuery] = useState("");
+  const [isFakeDark, setIsFakeDark] = useState(false);
 
   const searchedPosts =
     searchQuery.length > 0
@@ -38,26 +45,22 @@ const PostProvider = ({ children }) => {
   };
 
   return (
-    <PostContext.Provider
-      value={{
-        posts: searchedPosts,
-        onAddPost: handleAddPost,
-        onClearPosts: handleClearPosts,
-        searchQuery,
-        setSearchQuery,
-      }}
-    >
-      {children}
-    </PostContext.Provider>
+    <PostProvider>
+      <section>
+        <button
+          className="mode"
+          onClick={() => setIsFakeDark((isFakeDark) => !isFakeDark)}
+        >
+          {isFakeDark ? "*" : "🌙"}
+        </button>
+
+        <Header />
+        <Main posts={searchedPosts} onAddPost={handleAddPost} />
+        <Archive show={true} />
+        <Footer />
+      </section>
+    </PostProvider>
   );
-};
+}
 
-const usePost = () => {
-  const context = useContext(PostContext);
-  if (!context) {
-    throw new Error("usePost must be used within a PostProvider");
-  }
-  return context;
-};
-
-export { PostProvider, usePost };
+export default App;

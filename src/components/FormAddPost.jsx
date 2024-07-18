@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import { PostContext } from "../ContextApi/PostContext";
+import { usePost } from "../ContextApi/PostContext";
 
 const FormAddPost = () => {
-  const { onAddPost } = useContext(PostContext);
+  const { onAddPost } = usePost();
   return (
     <form className="form">
       <input type="text" placeholder="Post title" />

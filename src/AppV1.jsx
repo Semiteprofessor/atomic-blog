@@ -23,21 +23,21 @@ function App() {
   }, [isFakeDark]);
 
   return (
-    <section>
-      <button
-        className="mode"
-        onClick={() => setIsFakeDark((isFakeDark) => !isFakeDark)}
-      >
-        {isFakeDark ? "*" : "🌙"}
-      </button>
+    <PostProvider>
+      <section>
+        <button
+          className="mode"
+          onClick={() => setIsFakeDark((isFakeDark) => !isFakeDark)}
+        >
+          {isFakeDark ? "*" : "🌙"}
+        </button>
 
-      <PostProvider>
         <Header />
         <Main />
         <Archive />
         <Footer />
-      </PostProvider>
-    </section>
+      </section>
+    </PostProvider>
   );
 }
 

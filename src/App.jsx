@@ -6,6 +6,7 @@ import Archive from "./components/Archive";
 import Footer from "./components/Footer";
 
 import "./App.css";
+import { PostProvider } from "./ContextApi/PostContext";
 
 const createRandomPost = () => {
   return {
@@ -47,17 +48,7 @@ function App() {
   };
 
   return (
-    <PostContext.Provider
-      value={{
-        posts: searchedPosts,
-        onAddPost: handleAddPost,
-        onClearPosts: handleClearPosts,
-        searchQuery,
-        setSearchQuery,
-        isFakeDark,
-        setIsFakeDark,
-      }}
-    >
+    <PostProvider>
       <section>
         <button
           className="mode"
@@ -71,7 +62,7 @@ function App() {
         <Archive onAddPost={handleAddPost} />
         <Footer />
       </section>
-    </PostContext.Provider>
+    </PostProvider>
   );
 }
 
