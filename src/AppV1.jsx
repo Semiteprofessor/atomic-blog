@@ -41,19 +41,27 @@ function App() {
   function handleClearPosts() {
     setPosts([]);
   }
-  
+
   useEffect(() => {
     document.documentElement.classList.toggle("fake-dark-mode");
   }, [isFakeDark]);
 
   return (
-    <PostProvider>
+    <PostContext.Provider
+      value={{
+        posts: searchedPosts,
+        onAddPost: handleAddPost,
+        onClearPosts: handleClearPosts,
+        searchQuery,
+        setSearchQuery,
+      }}
+    >
       <section>
         <button
           className="mode"
           onClick={() => setIsFakeDark((isFakeDark) => !isFakeDark)}
         >
-          {isFakeDark ? "*" : "🌙"}
+          {isFakeDark ? "☀️" : "🌙"}
         </button>
 
         <Header />
@@ -61,8 +69,26 @@ function App() {
         <Archive />
         <Footer />
       </section>
-    </PostProvider>
+    </PostContext.Provider>
   );
 }
+function Header() {
+  // 3) CONSUMING CONTEXT VALUE
+  const { onClearPosts } = useContext(PostContext);
+
+  return (
+    <header>
+      <h1>
+        <span>⚛️</span>The Atomic Blog
+      </h1>
+      <div>
+        <Results />
+        <SearchPosts />
+        <button onClick={onClearPosts}>Clear posts</button>
+      </div>
+    </header>
+  );
+}
+
 
 export default App;
