@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
-import { usePost } from "../ContextApi/PostContext";
+import { usePosts } from "../ContextApi/PostContext";
 import { useEffect } from "react";
 
 const SinglePost = () => {
   const { id } = useParams();
-  const { post, fetchSingle, deletePost } = usePost();
+  const { post, fetchSingle, deletePost } = usePosts();
 
   useEffect(() => {
     fetchSingle(id);

@@ -6,7 +6,6 @@ import Archive from "./components/Archive";
 import Footer from "./components/Footer";
 
 import "./App.css";
-import { PostProvider } from "./ContextApi/PostContext";
 
 const createRandomPost = () => {
   return {
@@ -15,9 +14,34 @@ const createRandomPost = () => {
   };
 };
 
+// 1) CREATE A CONTEXT
+const PostContext = createContext();
+
 function App() {
+  const [posts, setPosts] = useState(() =>
+    Array.from({ length: 30 }, () => createRandomPost())
+  );
+  const [searchQuery, setSearchQuery] = useState("");
   const [isFakeDark, setIsFakeDark] = useState(false);
 
+  // Derived state. These are the posts that will actually be displayed
+  const searchedPosts =
+    searchQuery.length > 0
+      ? posts.filter((post) =>
+          `${post.title} ${post.body}`
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase())
+        )
+      : posts;
+
+  function handleAddPost(post) {
+    setPosts((posts) => [post, ...posts]);
+  }
+
+  function handleClearPosts() {
+    setPosts([]);
+  }
+  
   useEffect(() => {
     document.documentElement.classList.toggle("fake-dark-mode");
   }, [isFakeDark]);
