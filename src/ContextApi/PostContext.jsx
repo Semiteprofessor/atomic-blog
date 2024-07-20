@@ -38,14 +38,21 @@ const PostProvider = ({ children }) => {
       .catch((error) => console.error("Error adding post:", error));
   }, []);
 
-  useEffect(() => {
-    fetch(`${BASE_URL}/posts`)
-      .then((response) => response.json())
-      .then((data) => setPosts(data))
-      .catch((error) => console.error("Error fetching posts:", error));
-  }, []);
+  const fetchPosts = useCallback(async () => {
+    try {
+      const res = await fetch(`${BASE_URL}/posts`);
+      const data = await res.json();
 
-  const fetchSingle = async (id) => {
+      setPosts(data);
+    } catch (error) {
+      console.error("Error fetching posts", error);
+    }
+  }, []);
+  useEffect(() => {
+    fetchPosts();
+  }, [fetchPosts]);
+
+  const fetchSingle = useCallback(async (id) => {
     try {
       const response = await fetch(`${BASE_URL}/posts/${id}`);
       if (!response.ok) {
@@ -57,7 +64,19 @@ const PostProvider = ({ children }) => {
       console.error("Error fetching post:", error);
       setPost({});
     }
-  };
+  }, []);
+
+  const deletePost = useCallback(async (id) => {
+    try {
+      await fetch(`${BASE_URL}/posts/${id}`, {
+        method: "DELETE",
+      });
+      setPosts((posts) => posts.filter((post) => post.id !== id));
+      console.log("Post deleted successfully");
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
+  }, []);
 
   const handleClearPosts = () => {
     setPosts([]);
@@ -72,8 +91,16 @@ const PostProvider = ({ children }) => {
       setSearchQuery,
       post,
       fetchSingle,
+      deletePost,
     };
-  }, [handleAddPost, searchQuery, searchedPosts]);
+  }, [
+    handleAddPost,
+    searchQuery,
+    searchedPosts,
+    post,
+    fetchSingle,
+    deletePost,
+  ]);
 
   return <PostContext.Provider value={value}>{children}</PostContext.Provider>;
 };

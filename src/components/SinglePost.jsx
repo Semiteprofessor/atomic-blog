@@ -4,15 +4,25 @@ import { useEffect } from "react";
 
 const SinglePost = () => {
   const { id } = useParams();
-  const { post, fetchSingle } = usePost();
+  const { post, fetchSingle, deletePost } = usePost();
 
-  //   useEffect(() => {
-  //     fetchSingle(id);
-  //   }, [id, fetchSingle]);
-  //   console.log(post);
+  useEffect(() => {
+    fetchSingle(id);
+  }, [id, fetchSingle]);
 
-  //   const { title, body } = post;
-  return <div>Helooooooooooooooooo</div>;
+  const handleDelete = (e) => {
+    e.preventDefault();
+    deletePost(id);
+  };
+
+  const { title, body } = post;
+  return (
+    <div>
+      <h1>{title}</h1>
+      <p>{body}</p>
+      <button onClick={() => handleDelete}>Delete</button>
+    </div>
+  );
 };
 
 export default SinglePost;

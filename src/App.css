@@ -85,7 +85,6 @@ section .mode {
   margin-top: 30px;
   gap: 8px;
   text-align: justify;
-  cursor: pointer;
   text-decoration: none;
   color: black;
 }
@@ -95,7 +94,7 @@ section .mode {
   text-decoration: none;
 }
 
-.posts a .post {
+.posts .post {
   height: 15rem;
   width: 15rem;
 }

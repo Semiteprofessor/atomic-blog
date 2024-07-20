@@ -10,7 +10,7 @@ function App() {
     <PostProvider>
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/single/:id" element={<SinglePost />} />
+        <Route path="/:id" element={<SinglePost />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </PostProvider>
