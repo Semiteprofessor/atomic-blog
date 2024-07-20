@@ -1,18 +1,18 @@
-import { createContext, useContext, useState } from "react";
-import { faker } from "@faker-js/faker";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
+const BASE_URL = "http://localhost:8080";
 
 const PostContext = createContext();
 
-const createRandomPost = () => {
-  return {
-    title: `${faker.hacker.adjective()} ${faker.hacker.noun()}`,
-    body: faker.hacker.phrase(),
-  };
-};
 const PostProvider = ({ children }) => {
-  const [posts, setPosts] = useState(() =>
-    Array.from({ length: 30 }, () => createRandomPost())
-  );
+  const [posts, setPosts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
   const searchedPosts =
@@ -24,32 +24,41 @@ const PostProvider = ({ children }) => {
         )
       : posts;
 
-  const handleAddPost = (post) => {
-    setPosts((posts) => [...posts, post]);
-  };
+  const handleAddPost = useCallback((post) => {
+    fetch(`${BASE_URL}/posts`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(post),
+    })
+      .then((response) => response.json())
+      .then((newPost) => setPosts((posts) => [...posts, newPost]))
+      .catch((error) => console.error("Error adding post:", error));
+  }, []);
 
-  // const newPost = {
-  //   title: faker.lorem.words(3).join(" "),
-  //   body: faker.lorem.paragraphs(3).join(" "),
-  // };
+  useEffect(() => {
+    fetch(`${BASE_URL}/posts`)
+      .then((response) => response.json())
+      .then((data) => setPosts(data))
+      .catch((error) => console.error("Error fetching posts:", error));
+  }, []);
 
   const handleClearPosts = () => {
     setPosts([]);
   };
 
-  return (
-    <PostContext.Provider
-      value={{
-        posts: searchedPosts,
-        onAddPost: handleAddPost,
-        onClearPosts: handleClearPosts,
-        searchQuery,
-        setSearchQuery,
-      }}
-    >
-      {children}
-    </PostContext.Provider>
-  );
+  const value = useMemo(() => {
+    return {
+      posts: searchedPosts,
+      onAddPost: handleAddPost,
+      onClearPosts: handleClearPosts,
+      searchQuery,
+      setSearchQuery,
+    };
+  }, [handleAddPost, searchQuery, searchedPosts]);
+
+  return <PostContext.Provider value={value}>{children}</PostContext.Provider>;
 };
 
 const usePost = () => {

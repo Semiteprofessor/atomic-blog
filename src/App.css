@@ -77,16 +77,20 @@ section .mode {
   width: 60%;
 }
 
-.posts {
+.posts a {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   margin-top: 30px;
   gap: 8px;
+  text-align: justify;
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
 }
 
-.posts .post {
-  height: 10rem;
+.posts a .post {
+  height: 15rem;
   width: 15rem;
 }

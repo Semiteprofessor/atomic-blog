@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
 const Archive = ({ show }) => {
-  const [posts] = useState(() =>
-    Array.from({ length: 10000 }, () => createRandomPost())
-  );
+  // const [posts] = useState(() =>
+  //   Array.from({ length: 10000 }, () => createRandomPost())
+  // );
 
   const [showArchive, setShowArchive] = useState(show);
   return (
@@ -15,13 +15,13 @@ const Archive = ({ show }) => {
 
       {showArchive && (
         <ul>
-          {posts.map((post, i) => (
+          {/* {posts.map((post, i) => (
             <li key={i}>
               <p>
                 <strong>{post.title}:</strong> {post.body}
               </p>
             </li>
-          ))}
+          ))} */}
         </ul>
       )}
     </aside>
