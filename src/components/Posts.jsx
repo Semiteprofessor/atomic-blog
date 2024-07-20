@@ -4,16 +4,20 @@ import { Link } from "react-router-dom";
 
 const Posts = () => {
   const { posts } = usePost();
+  if (posts.length === 0) {
+    return <p>No posts found</p>;
+  }
+
   return (
     <div className="posts">
-      <Link to="single">
-        {posts.map((post) => (
-          <div key={post.id} className="post">
+      {posts.map((post) => (
+        <Link to={`${post.id}`} key={post.id}>
+          <div className="post">
             <h2>{post.title}</h2>
             <p>{post.body}</p>
           </div>
-        ))}
-      </Link>
+        </Link>
+      ))}
     </div>
   );
 };

@@ -77,7 +77,7 @@ section .mode {
   width: 60%;
 }
 
-.posts a {
+.posts {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -88,6 +88,11 @@ section .mode {
   cursor: pointer;
   text-decoration: none;
   color: black;
+}
+
+.posts a {
+  color: black;
+  text-decoration: none;
 }
 
 .posts a .post {

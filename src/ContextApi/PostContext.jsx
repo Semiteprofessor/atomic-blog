@@ -13,6 +13,7 @@ const PostContext = createContext();
 
 const PostProvider = ({ children }) => {
   const [posts, setPosts] = useState([]);
+  const [post, setPost] = useState({});
   const [searchQuery, setSearchQuery] = useState("");
 
   const searchedPosts =
@@ -44,6 +45,20 @@ const PostProvider = ({ children }) => {
       .catch((error) => console.error("Error fetching posts:", error));
   }, []);
 
+  const fetchSingle = async (id) => {
+    try {
+      const response = await fetch(`${BASE_URL}/posts/${id}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setPost(data);
+    } catch (error) {
+      console.error("Error fetching post:", error);
+      setPost({});
+    }
+  };
+
   const handleClearPosts = () => {
     setPosts([]);
   };
@@ -55,6 +70,8 @@ const PostProvider = ({ children }) => {
       onClearPosts: handleClearPosts,
       searchQuery,
       setSearchQuery,
+      post,
+      fetchSingle,
     };
   }, [handleAddPost, searchQuery, searchedPosts]);
 
