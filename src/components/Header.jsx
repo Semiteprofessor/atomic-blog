@@ -1,24 +1,24 @@
 import React, { useContext } from "react";
 import Results from "./Results";
 import SearchPosts from "./SearchPosts";
-import { usePost } from "../ContextApi/PostContext";
+import { usePosts } from "../ContextApi/PostContext";
 
-const Header = () => {
-  const { onClearPosts } = usePost();
+function Header() {
+  // 3) CONSUMING CONTEXT VALUE
+  const { onClearPosts } = usePosts();
+
   return (
-    <header className="header">
+    <header>
       <h1>
-        <span>⚛️</span>Atomic Blog
+        <span>⚛️</span>The Atomic Blog
       </h1>
       <div>
         <Results />
         <SearchPosts />
+        <button onClick={onClearPosts}>Clear posts</button>
       </div>
-      <button className="clear-post" onClick={onClearPosts}>
-        Clear Posts
-      </button>
     </header>
   );
-};
+}
 
 export default Header;

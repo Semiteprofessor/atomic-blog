@@ -105,7 +105,7 @@ const PostProvider = ({ children }) => {
   return <PostContext.Provider value={value}>{children}</PostContext.Provider>;
 };
 
-const usePost = () => {
+const usePosts = () => {
   const context = useContext(PostContext);
   if (!context) {
     throw new Error("usePost must be used within a PostProvider");
@@ -113,4 +113,4 @@ const usePost = () => {
   return context;
 };
 
-export { PostProvider, usePost };
+export { PostProvider, usePosts };

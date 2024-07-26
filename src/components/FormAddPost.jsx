@@ -1,42 +1,34 @@
 import React, { useCallback, useContext, useMemo, useState } from "react";
-import { usePost } from "../ContextApi/PostContext";
+import { usePosts } from "../ContextApi/PostContext";
 
-const FormAddPost = () => {
-  const { onAddPost } = usePost();
-
+function FormAddPost() {
+  const { onAddPost } = usePosts();
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
-  const handleSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
-      onAddPost({ title, body });
-      setTitle("");
-      setBody("");
-    },
-    [onAddPost, title, body]
-  );
+  const handleSubmit = function (e) {
+    e.preventDefault();
+    if (!body || !title) return;
+    onAddPost({ title, body });
+    setTitle("");
+    setBody("");
+  };
 
   return (
-    <form className="form" onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <input
-        type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Post title"
       />
-      <input
-        type="text"
+      <textarea
         value={body}
         onChange={(e) => setBody(e.target.value)}
         placeholder="Post body"
-        className="body"
       />
-      <button className="add-post" type="submit" onClick={onAddPost}>
-        Add Post
-      </button>
+      <button>Add post</button>
     </form>
   );
-};
+}
 
 export default FormAddPost;
