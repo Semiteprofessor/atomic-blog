@@ -40,10 +40,6 @@ function App() {
   //   body: faker.lorem.paragraphs(3).join(" "),
   // };
 
-  const handleClearPosts = () => {
-    setPosts([]);
-  };
-
   return (
     <section>
       <button
@@ -55,13 +51,14 @@ function App() {
       <PostProvider>
         <Header />
         <Main posts={searchedPosts} onAddPost={handleAddPost} />
-        <Archive onAddPost={handleAddPost} />
+        <Archive
+          onAddPost={handleAddPost}
+          createRandomPost={createRandomPost}
+        />
         <Footer />
       </PostProvider>
     </section>
   );
 }
-
-
 
 export default App;
