@@ -46,15 +46,13 @@ function App() {
 
   return (
     <section>
-      <button>{isFakeDark ? "☀️" : "🌙"}</button>
+      <button
+        onClick={() => setIsFakeDark((isFakeDark) => !isFakeDark)}
+        className="btn-fake-dark-mode"
+      >
+        {isFakeDark ? "☀️" : "🌙"}
+      </button>
       <PostProvider>
-        <button
-          className="mode"
-          onClick={() => setIsFakeDark((isFakeDark) => !isFakeDark)}
-        >
-          {isFakeDark ? "*" : "🌙"}
-        </button>
-
         <Header />
         <Main posts={searchedPosts} onAddPost={handleAddPost} />
         <Archive onAddPost={handleAddPost} />
