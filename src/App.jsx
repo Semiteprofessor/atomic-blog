@@ -15,9 +15,6 @@ const createRandomPost = () => {
   };
 };
 
-// Create a new context
-const PostContext = createContext({});
-
 function App() {
   const [posts, setPosts] = useState(() =>
     Array.from({ length: 30 }, () => createRandomPost())
@@ -48,8 +45,9 @@ function App() {
   };
 
   return (
-    <PostProvider>
-      <section>
+    <section>
+      <button>{isFakeDark ? "☀️" : "🌙"}</button>
+      <PostProvider>
         <button
           className="mode"
           onClick={() => setIsFakeDark((isFakeDark) => !isFakeDark)}
@@ -61,8 +59,8 @@ function App() {
         <Main posts={searchedPosts} onAddPost={handleAddPost} />
         <Archive onAddPost={handleAddPost} />
         <Footer />
-      </section>
-    </PostProvider>
+      </PostProvider>
+    </section>
   );
 }
 
